@@ -1,12 +1,14 @@
 import Home from './pages/Home/Home'
-import Piecharts from './components/Piecharts'
+
+import Elipse from './components/Elipse/Elipse'
 import './App.css';
 
 function App() {
   return (
     <div >
+      <Elipse />
       <Home />
-      <Piecharts />
+      
     </div>
   );
 }
