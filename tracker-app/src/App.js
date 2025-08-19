@@ -1,12 +1,12 @@
 import Home from './pages/Home/Home'
 
-import Elipse from './components/Elipse/Elipse'
+// import Elipse from './components/Elipse/Elipse'
 import './App.css';
 
 function App() {
   return (
     <div >
-      <Elipse />
+      {/* <Elipse /> */}
       <Home />
       
     </div>

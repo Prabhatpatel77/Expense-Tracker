@@ -1,0 +1,21 @@
+.editsection{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+.tcard{
+    /* display:flex; */
+     /* background:white */
+}
+.cardContent{
+   
+}
+.cardButtons{
+
+}
+.delete{
+
+}
+.edit{
+
+}

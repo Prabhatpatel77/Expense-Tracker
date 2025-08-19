@@ -1,8 +1,24 @@
-.cards{
+.card{
     background: #9B9B9B;
 height:181px;
 width:355px;
-border-radius:15px;
-margin-top:40px;
-margin-left:66px;
+border-radius:12px;
+/* margin-top:40px; */
+/* margin-left:66px; */
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:48px 20px;
+box-shadow: 0 4px 4px rgba(0,0,0,0.25);
+
+}
+
+.cardTitle{
+    color:#fff;
+    font-weight:400;
+    font-size:32px;
+    margin-bottom:18px;
+
 }

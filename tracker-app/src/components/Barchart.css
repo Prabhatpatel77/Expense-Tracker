@@ -1,0 +1,29 @@
+
+/*
+@media (max-width: 767px) {
+  .expenseChart h2 {
+    text-align: center;
+  }
+} */
+ .barChart {
+    
+ }
+ .barHeader{
+  font-size:30px;
+  color: #fff;
+  margin-bottom:10px;
+  font-style:italic;
+  padding:10px;
+ }
+
+ .barWrapper{
+  background:#fff;
+  padding:5x 20px;
+  border-radius:12px;
+ }
+
+ @media (max-width:768px){
+  .barHeader{
+    text-align:center;
+  }
+ }

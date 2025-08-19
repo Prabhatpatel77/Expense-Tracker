@@ -25,7 +25,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 // width={400} height={400}
 export default function Pieharts() {
   return (
-    <div style={{width:400, height:400}}>
+    <div style={{width:300, height:250}}>
 
    
     <ResponsiveContainer width="100%" height="100%">

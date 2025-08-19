@@ -1,18 +1,20 @@
 import React from 'react';
 import './Card.css'
 
-export default function Card(){
+export default function Card({
+    title,
+    money,
+    bttntxt,
+}){
     return (
-        <>
-        <div className='cards'>
-            <h3>Wallet Wallence:5000</h3>
-            <button type='button'>+Add Income</button>
+        // <>
+        <div className='card'>
+            <h3 className='cardTitle'>{`${title}:₹${money}`}</h3>
+            <button type='button'>{bttntxt}</button>
         </div>
-        <div className='cards'>
-<h3>Expenses:500</h3>
-<button type='button'>+Add Expense</button>
-        </div>
-        </>
+
+     
+      
         
     )
 }
