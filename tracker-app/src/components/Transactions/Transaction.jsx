@@ -22,13 +22,11 @@ export default function Transaction({details}) {
       <div className="cardContent">
         <div>
          <div>
-          {/* <h5>{details.price}</h5>
+          {/* <h5>{details.title}</h5>
           <p>{details.date}</p> */}
         </div>
-        </div>
-        
-         
-      </div>
+        </div>      
+         </div>
 
 
       <div className="editexpense">

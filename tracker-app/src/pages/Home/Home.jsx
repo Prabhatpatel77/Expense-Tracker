@@ -4,6 +4,8 @@ import Card from '../../components/Card/Card'
 import Transaction from '../../components/Transactions/Transaction'
 import Piecharts from '../../components/Piecharts';
 import Modal from '../../components/Modal';
+import BalanceForm from '../../components/Forms/BalanceForm'
+import ExpenseForm from '../../components/Forms/ExpenseForm'
 import BarChart from '../../components/BarChart'
 
 const data = [
@@ -18,9 +20,9 @@ export default function Home(){
     const [transactionList,setTransactionList]=useState([]);
     //modals
     const [isOpenExpense,setIsOpenExpense]=useState(false);
-    const [isOpenbalance,setIsOpenBalance]=useState(false);
+    const [isOpenBalance,setIsOpenBalance]=useState(false);
 
-
+const [isOpen,setIsOpen]=useState(false)
     //mounting
     const [isMounted,setIsMounted]=useState(false);
 
@@ -34,11 +36,19 @@ export default function Home(){
               <Card 
               title="Wallet Balance"
               money="5000" 
-              bttntxt="+ Add Income" />
+              bttntxt="+ Add Income"
+              handleClick={()=>{
+                setIsOpenBalance(true)
+                setIsOpen(true)
+              }} />
                <Card 
               title="Expense Balance"
               money="5000" 
-              bttntxt="+ Add Expense" />
+              bttntxt="+ Add Expense" 
+              handleClick={()=>{
+                setIsOpenExpense(true)
+                setIsOpen(true)
+              }} />
               <Piecharts data={data}/>
             </div>
           
@@ -46,7 +56,19 @@ export default function Home(){
             <Transaction />
             <BarChart data={data} />
             </div>
-            
+              <Modal
+        isOpen={isOpenBalance}
+        setIsOpen={setIsOpenBalance}
+       
+      >
+        <BalanceForm />
+        
+      </Modal>
+      <Modal 
+      isOpen={isOpenExpense}
+      setIsOpen={setIsOpenExpense}>
+        <ExpenseForm />
+      </Modal>
         </div>
     )
 }
