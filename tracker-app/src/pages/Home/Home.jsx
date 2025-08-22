@@ -41,10 +41,10 @@ export default function Home(){
               bttntxt="+ Add Expense" />
               <Piecharts data={data}/>
             </div>
+          
+            <div className='expensepart'>
             <Transaction />
             <BarChart data={data} />
-            <div>
-
             </div>
             
         </div>

@@ -23,4 +23,9 @@ margin-bottom:32px;
 justify-content:space-between;
  box-sizing: border-box;
 }
-
+.expensepart{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:30px;
+  
+ }
