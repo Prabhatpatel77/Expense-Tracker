@@ -1,0 +1,69 @@
+.balanceForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(239, 239, 239, 0.85);
+  border-radius: 15px;
+  padding: 2rem;
+  width: 95%;
+  max-width: 572px;
+  box-sizing: border-box;
+}
+
+.formHeading {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #222;
+}
+
+.formContent {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.formInput {
+  font-size: 1rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #f6f6f6;
+  outline: none;
+  box-shadow: 0 2px 2px rgba(0,0,0,0.05);
+  width: 180px;
+}
+
+.primaryBtn {
+  font-size: 1rem;
+  font-weight: 500;
+  background: #FDBA3B;
+  color: #fff;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+}
+
+.primaryBtn:hover {
+  background: #D99A20;
+}
+
+.cancelBtn {
+  font-size: 1rem;
+  color: #444;
+  background: #e5e5e5;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  margin-left: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+  transition: background 0.2s;
+}
+
+.cancelBtn:hover {
+  background: #c5c5c5;
+}
