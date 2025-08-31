@@ -1,74 +1,168 @@
-import './Home.css'
-import React,{useState,useEffect} from 'react';
-import Card from '../../components/Card/Card'
-import Transaction from '../../components/Transactions/Transaction'
-import Piecharts from '../../components/Piecharts';
-import Modal from '../../components/Modal';
-import BalanceForm from '../../components/Forms/BalanceForm'
-import ExpenseForm from '../../components/Forms/ExpenseForm'
-import BarChart from '../../components/BarChart'
+import "./Home.css";
+import { useState, useEffect } from "react";
+import Card from "../../components/Card/Card";
+import TransactionList from "../../components/TransactionList/TransactionList";
+import PieChart from "../../components/Piecharts";
+import BarChart from "../../components/BarChart";
+import Modal from "../../components/Modal";
+import BalanceForm from "../../components/Forms/BalanceForm";
+import ExpenseForm from "../../components/Forms/ExpenseForm";
 
-const data = [
-  { name: 'travel', value: 1000 },
-  { name: 'Food', value: 500 },
-  { name: 'Entertainment', value: 250 },
-];
+export default function Home() {
+  
+  const [wallet, setWallet] = useState(0);
+  const [totalExpense, setTotalExpense] = useState(0);
+  const [records, setRecords] = useState([]);
 
-export default function Home(){
-    const [balanceAmount,setBalanceAmount]=useState(0);
-    const [expenseAmount,setExpenseAmount]=useState(0);
-    const [transactionList,setTransactionList]=useState([]);
-    //modals
-    const [isOpenExpense,setIsOpenExpense]=useState(false);
-    const [isOpenBalance,setIsOpenBalance]=useState(false);
+  // category-wise values
+  const [categoryTotals, setCategoryTotals] = useState({
+    food: 0,
+    travel: 0,
+    entertainment: 0,
+  });
+  const [categoryCounts, setCategoryCounts] = useState({
+    food: 0,
+    travel: 0,
+    entertainment: 0,
+  });
 
-const [isOpen,setIsOpen]=useState(false)
-    //mounting
-    const [isMounted,setIsMounted]=useState(false);
+  // modal flags
+  const [showExpenseModal, setShowExpenseModal] = useState(false);
+  const [showBalanceModal, setShowBalanceModal] = useState(false);
 
+  const [mounted, setMounted] = useState(false);
 
+  // first render → load from localStorage
+  useEffect(() => {
+    const savedBalance = localStorage.getItem("balance");
+    if (savedBalance) {
+      setWallet(Number(savedBalance));
+    } else {
+      setWallet(5000);
+      localStorage.setItem("balance", 5000);
+    }
 
-    // useEffect(()=>,[])
-    return (
-        <div className='cardcontainer'>
-            <h1 className='header'>Expense Tracker</h1>
-            <div className='cardsection'>
-              <Card 
-              title="Wallet Balance"
-              money="5000" 
-              bttntxt="+ Add Income"
-              handleClick={()=>{
-                setIsOpenBalance(true)
-                setIsOpen(true)
-              }} />
-               <Card 
-              title="Expense Balance"
-              money="5000" 
-              bttntxt="+ Add Expense" 
-              handleClick={()=>{
-                setIsOpenExpense(true)
-                setIsOpen(true)
-              }} />
-              <Piecharts data={data}/>
-            </div>
-          
-            <div className='expensepart'>
-            <Transaction />
-            <BarChart data={data} />
-            </div>
-              <Modal
-        isOpen={isOpenBalance}
-        setIsOpen={setIsOpenBalance}
-       
-      >
-        <BalanceForm />
-        
-      </Modal>
-      <Modal 
-      isOpen={isOpenExpense}
-      setIsOpen={setIsOpenExpense}>
+    const savedExpenseList = JSON.parse(localStorage.getItem("expenses"));
+    setRecords(savedExpenseList || []);
+
+    setMounted(true);
+  }, []);
+
+  // update when expense list changes
+  useEffect(() => {
+    if (records.length > 0 || mounted) {
+      localStorage.setItem("expenses", JSON.stringify(records));
+    }
+
+    if (records.length > 0) {
+      const total = records.reduce(
+        (acc, curr) => acc + Number(curr.price),
+        0
+      );
+      setTotalExpense(total);
+    } else {
+      setTotalExpense(0);
+    }
+
+    let foodSum = 0,
+      foodCnt = 0,
+      entSum = 0,
+      entCnt = 0,
+      travelSum = 0,
+      travelCnt = 0;
+
+    records.forEach((record) => {
+      if (record.category === "food") {
+        foodSum += Number(record.price);
+        foodCnt++;
+      } else if (record.category === "entertainment") {
+        entSum += Number(record.price);
+        entCnt++;
+      } else if (record.category === "travel") {
+        travelSum += Number(record.price);
+        travelCnt++;
+      }
+    });
+
+    setCategoryTotals({
+      food: foodSum,
+      entertainment: entSum,
+      travel: travelSum,
+    });
+
+    setCategoryCounts({
+      food: foodCnt,
+      entertainment: entCnt,
+      travel: travelCnt,
+    });
+  }, [records]);
+
+  // update localStorage whenever balance changes
+  useEffect(() => {
+    if (mounted) {
+      localStorage.setItem("balance", wallet);
+    }
+  }, [wallet]);
+
+  return (
+    <div className="cardcontainer">
+      <h1 className="header">Expense Tracker</h1>
+
+      {/* Top Section with Balance + Charts */}
+      <div className="cardsection">
+        <Card
+          title="Wallet Balance"
+          money={wallet}
+          bttntxt="+ Add Income"
+          buttonType="success"
+          handleClick={() => setShowBalanceModal(true)}
+        />
+
+        <Card
+          title="Total Expenses"
+          money={totalExpense}
+          bttntxt="+ Add Expense"
+          buttonType="failure"
+          handleClick={() => setShowExpenseModal(true)}
+        />
+
+        <PieChart
+          data={[
+            { name: "Food", value: categoryTotals.food },
+            { name: "Entertainment", value: categoryTotals.entertainment },
+            { name: "Travel", value: categoryTotals.travel },
+          ]}
+        />
+      </div>
+
+      {/* Transactions + Bar Graph */}
+      <div className="expensepart">
+        <TransactionList
+          transactions={records}
+          editTransactions={setRecords}
+          title="Recent Transactions"
+          balance={wallet}
+          setBalance={setWallet}
+        />
+
+        <BarChart
+          data={[
+            { name: "Food", value: categoryCounts.food },
+            { name: "Entertainment", value: categoryCounts.entertainment },
+            { name: "Travel", value: categoryCounts.travel },
+          ]}
+        />
+      </div>
+
+      {/* Modals */}
+      <Modal isOpen={showExpenseModal} setIsOpen={setShowExpenseModal}>
         <ExpenseForm />
+      
       </Modal>
-        </div>
-    )
+
+      <Modal isOpen={showBalanceModal} setIsOpen={setShowBalanceModal}>
+          <BalanceForm />
+      </Modal>
+    </div>
+  );
 }
