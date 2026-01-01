@@ -1,15 +1,34 @@
 import React,{useState} from 'react';
 
-export default function ExpenseForm(){
-    const [spendValue,setSpendValue]=useState("")
-    const [title,setTitle]=useState("")
+export default function ExpenseForm({onSubmit,onCancel}){
+    const [spendValue,setSpendValue]=useState("");
+    const [title,setTitle]=useState("");
+    const [category,setCategory]=useState("");
+    const [date,setDate]=useState("");
+    const handleSubmit=(e)=>{
+        e.preventDefault();
+        if(onSubmit){    
+            const expenseData={
+                title,
+                price:Number(spendValue),
+                category:category.toLowerCase(),
+                date,
+            };
+            onSubmit(expenseData);
+      setTitle("");
+      setSpendValue("");
+      setCategory("");
+      setDate("");
+
+        }
+    }
     return (
         <div>
             <h3>Add Expense</h3>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <input 
                 type="text"
-                placeholder="title"
+                placeholder="Title"
                 value={title}
                 onChange={(e)=>setTitle(e.target.value)}
                 required
@@ -19,24 +38,30 @@ export default function ExpenseForm(){
                 placeholder="price"
                 value={spendValue}
                 onChange={(e)=>setSpendValue(e.target.value)}
+                min="0"
+                step="any"
                 required
 
                 />
                 <select
                 name="category"
-                // value={}
-                // onChange={}
+                value={category}
+                onChange={(e)=>setCategory(e.target.value)}
                 required >
-                    <option value="" disabled>Select Categor</option>
-                    <option value="Food">Food</option>
-                    <option value="Travel">Travel</option>
+                    <option value="" disabled>Select Category</option>
+                    <option value="food">Food</option>
+                    <option value="travel">Travel</option>
                     <option value="entertainment">Entertainment</option>
                 </select>
                 <input
                 type="date"
-                name="date" />
-                <button>Add Expense</button>
-                <button>Cancel</button>
+                name="date"
+                value={date}
+                onChange={(e)=>setDate(e.target.value)} 
+                required
+                />
+                <button type='submit'>Add Expense</button>
+                <button type="button" onClick={onCancel} >Cancel</button>
                 </form>
         </div>
 

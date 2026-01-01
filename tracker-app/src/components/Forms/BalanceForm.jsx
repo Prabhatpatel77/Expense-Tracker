@@ -22,6 +22,8 @@ export default function BalanceForm({ onCancel, onSubmit }) {
           onChange={(e) => setIncome(e.target.value)}
           required
           className="formInput"
+          min="0"
+          step="any"
         />
         <button type="submit" className="primaryBtn">Add Balance</button>
         <button 
