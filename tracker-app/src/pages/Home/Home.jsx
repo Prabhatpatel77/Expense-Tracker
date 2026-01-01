@@ -26,33 +26,20 @@ export default function Home() {
     entertainment: 0,
   });
 
+
   // modal flags
   const [showExpenseModal, setShowExpenseModal] = useState(false);
   const [showBalanceModal, setShowBalanceModal] = useState(false);
 
   const [mounted, setMounted] = useState(false);
 
-  // first render → load from localStorage
-  // useEffect(() => {
-  //   const savedBalance = localStorage.getItem("balance");
-  //   if (savedBalance) {
-  //     setWallet(Number(savedBalance));
-  //   } else {
-  //     setWallet(5000);
-  //     localStorage.setItem("balance", 5000);
-  //   }
 
-  //   const savedExpenseList = JSON.parse(localStorage.getItem("expenses"));
-  //   setRecords(savedExpenseList || []);
-
-  //   setMounted(true);
-  // }, []);
   useEffect(() => {
     const savedBalance = localStorage.getItem("balance");
     if (savedBalance) {
       setWallet(Number(savedBalance));
     } else {
-      // Keep initial wallet balance as 5000 (as asked)
+      // Keep initial wallet balance as 5000 
       setWallet(5000);
       localStorage.setItem("balance", 5000);
     }
@@ -69,9 +56,10 @@ export default function Home() {
       console.error("Failed to parse expenses from localStorage:", error);
       setRecords([]);
     }
-
     setMounted(true);
-  }, []);
+  }, []);// income set by using localstorage
+
+
   //changes
     const aggregateCategories = (records) => {
     return records.reduce(
@@ -90,10 +78,13 @@ export default function Home() {
       }
     );
   };
+
+
 //changes second try
 useEffect(() => {
     if (records.length > 0 || mounted) {
-      localStorage.setItem("expenses", JSON.stringify(records));
+      // localStorage.setItem("expenses", JSON.stringify(records));
+      localStorage.setItem("expense",JSON.stringify(records))
     }
 
     if (records.length > 0) {
@@ -109,54 +100,11 @@ useEffect(() => {
     setCategoryCounts(categoryCounts);
   }, [records]);
 
-  // update when expense list changes
-  // useEffect(() => {
-  //   if (records.length > 0 || mounted) {
-  //     localStorage.setItem("expenses", JSON.stringify(records));
-  //   }
+  
 
-  //   if (records.length > 0) {
-  //     const total = records.reduce(
-  //       (acc, curr) => acc + Number(curr.price),
-  //       0
-  //     );
-  //     setTotalExpense(total);
-  //   } else {
-  //     setTotalExpense(0);
-  //   }
 
-  //   let foodSum = 0,
-  //     foodCnt = 0,
-  //     entSum = 0,
-  //     entCnt = 0,
-  //     travelSum = 0,
-  //     travelCnt = 0;
 
-  //   records.forEach((record) => {
-  //     if (record.category === "food") {
-  //       foodSum += Number(record.price);
-  //       foodCnt++;
-  //     } else if (record.category === "entertainment") {
-  //       entSum += Number(record.price);
-  //       entCnt++;
-  //     } else if (record.category === "travel") {
-  //       travelSum += Number(record.price);
-  //       travelCnt++;
-  //     }
-  //   });
 
-  //   setCategoryTotals({
-  //     food: foodSum,
-  //     entertainment: entSum,
-  //     travel: travelSum,
-  //   });
-
-  //   setCategoryCounts({
-  //     food: foodCnt,
-  //     entertainment: entCnt,
-  //     travel: travelCnt,
-  //   });
-  // }, [records]);
 
   // update localStorage whenever balance changes
   useEffect(() => {
@@ -164,6 +112,9 @@ useEffect(() => {
       localStorage.setItem("balance", wallet);
     }
   }, [wallet]);
+
+
+  //react renders
 
   return (
     <div className="cardcontainer">
@@ -219,11 +170,17 @@ useEffect(() => {
       <Modal isOpen={showExpenseModal} setIsOpen={setShowExpenseModal}>
         <ExpenseForm
         onSubmit={(expenseData)=>{
+          const expenseWithId={...expenseData,id:Date.now()};
+          if(Number(expenseWithId.price)>wallet){
+            alert("Insuffiecient Wallet Balalnce!");
+            return;
+          }
+
           setRecords((prevRecords)=>[...prevRecords,expenseData]);
           setWallet((prevWallet)=>prevWallet-expenseData.price);
-
           setShowExpenseModal(false);
         }}
+
         onCancel={()=>setShowExpenseModal(false)} />
       
       </Modal>

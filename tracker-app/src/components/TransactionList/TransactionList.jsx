@@ -28,10 +28,21 @@ export default function TransactionList({
     editTransactions((prev) => prev.filter((item) => item.id != id));
   };
 
-  const handleEdit = (id) => {
+  
+
+       const handleEdit = (id) => {
     setEditId(id);
     setIsDisplayEditor(true);
   };
+
+
+
+useEffect(()=>{
+  if(transactions.length>0&&currentTransactions.length===0){
+    setCurrentPage(1);
+  }
+},[transactions.length]);
+
 
   useEffect(() => {
     const startIndex = (currentPage - 1) * maxRecords; // 3
@@ -39,7 +50,16 @@ export default function TransactionList({
 
     setCurrentTransactions([...transactions].slice(startIndex, endIndex)); // [A, B, C, D].slice(3, 4) => [D]
     setTotalPages(Math.ceil(transactions.length / maxRecords)); // Math.ceil(4 / 3) => 2
-  }, [currentPage, transactions]);
+
+    if(currentPage>Math.ceil(transactions.length/maxRecords)&&transactions.length>0){
+      setCurrentPage(1);
+
+    }
+  }, [currentPage, transactions.length]);
+
+  
+ 
+
 
   // update page if all items on current page have been deleted
   useEffect(() => {

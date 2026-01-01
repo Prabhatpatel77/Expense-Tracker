@@ -7,7 +7,9 @@ export default function BalanceForm({ onCancel, onSubmit }) {
   // Optional: You can handle form submission and cancel events here
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (onSubmit) onSubmit(income);
+    if (onSubmit) {
+      onSubmit(income);
+    }
     setIncome(""); // clear input after submit if needed
   };
 

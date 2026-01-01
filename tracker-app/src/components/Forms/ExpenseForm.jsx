@@ -5,6 +5,8 @@ export default function ExpenseForm({onSubmit,onCancel}){
     const [title,setTitle]=useState("");
     const [category,setCategory]=useState("");
     const [date,setDate]=useState("");
+
+
     const handleSubmit=(e)=>{
         e.preventDefault();
         if(onSubmit){    
@@ -15,25 +17,33 @@ export default function ExpenseForm({onSubmit,onCancel}){
                 date,
             };
             onSubmit(expenseData);
+
       setTitle("");
       setSpendValue("");
       setCategory("");
       setDate("");
 
         }
-    }
+    };
+
+    
     return (
         <div>
+
             <h3>Add Expense</h3>
             <form onSubmit={handleSubmit}>
+
                 <input 
+                name='title'
                 type="text"
                 placeholder="Title"
                 value={title}
                 onChange={(e)=>setTitle(e.target.value)}
                 required
                 />
+
                 <input 
+                name='price'
                 type="number"
                 placeholder="price"
                 value={spendValue}
@@ -41,8 +51,8 @@ export default function ExpenseForm({onSubmit,onCancel}){
                 min="0"
                 step="any"
                 required
-
                 />
+
                 <select
                 name="category"
                 value={category}
@@ -53,6 +63,7 @@ export default function ExpenseForm({onSubmit,onCancel}){
                     <option value="travel">Travel</option>
                     <option value="entertainment">Entertainment</option>
                 </select>
+
                 <input
                 type="date"
                 name="date"
